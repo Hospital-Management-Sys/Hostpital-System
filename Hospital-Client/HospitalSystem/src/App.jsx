@@ -1,21 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import Appointment from './components/Appointment'
-import Booking from './components/Booking'
- import FindDrs from './components/FindDrs'
-  import Doctors from './components/Doctors'
-function App() {
-  const [count, setCount] = useState(0)
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './layouts/navbar'; // Adjust path as needed
+import HomePage from './pages/home';
+import Footer from './layouts/footer';
 
+function App() {
   return (
-    <div >
-    <Booking />
-     {/* <FindDrs />    */}
-    {/* <Doctors /> */}
-    {/* <Appointment /> */}
-    </div>
-  )
+    <Router>
+      <Navbar />
+      <Routes>
+       " <Route path="/" element={<HomePage />} />
+        
+      </Routes>
+      <Footer />
+    </Router>
+  );
 }
 
-export default App
+export default App;
+
+
+

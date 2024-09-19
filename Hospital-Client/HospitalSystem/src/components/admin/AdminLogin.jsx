@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAdmin } from '../../redux/thunks/adminThunks/adminThunk';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const loginStatus = useSelector((state) => state.admin.status);
     const error = useSelector((state) => state.admin.error);
 
@@ -22,6 +24,8 @@ const AdminLogin = () => {
                 text: 'Login successful!',
                 icon: 'success',
                 confirmButtonText: 'Okay'
+            }).then(() => {
+                navigate('/admin/AdminDashboard'); 
             });
         } else if (loginStatus === 'failed' && error) {
             Swal.fire({
@@ -31,7 +35,7 @@ const AdminLogin = () => {
                 confirmButtonText: 'Okay'
             });
         }
-    }, [loginStatus, error]);
+    }, [loginStatus, error, navigate]);
 
     return (
         <div className="flex items-center justify-center h-screen bg-gradient-to-b from-[#C0EEE4] to-[#F8F988]">

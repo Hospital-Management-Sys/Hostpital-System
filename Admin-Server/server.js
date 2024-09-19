@@ -5,15 +5,18 @@ const bodyParser = require("body-parser");
 const app = express();
 require("dotenv").config();
 
+const adminRoutes = require('./routes/adminRoutes');
+
+
 //server constants
 const corsConfig = { origin: "http://localhost:5173", credentials: true };
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 //Middlewares:
 //cors
 app.use(cors(corsConfig));
 //bodyParser
 app.use(bodyParser.json());
-
+app.use('/api', adminRoutes);
 //controllerRoutes:
 
 //server connection

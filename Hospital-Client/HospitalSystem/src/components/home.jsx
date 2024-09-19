@@ -54,7 +54,7 @@ const CheerfulHeroSection = () => {
     <section className="bg-white py-12 sm:py-20 overflow-hidden relative">
       <div className="container mx-auto flex flex-col md:flex-row items-center my-8 md:my-12 relative z-10">
         <div className="flex flex-col w-full lg:w-1/2 justify-center items-start p-8">
-          <h1 className="text-4xl md:text-6xl font-bold text-[#FF9E9E] mb-4 animate-bounce">
+          <h1 className="text-4xl md:text-6xl font-bold text-[#C0EEE4] mb-4 animate-bounce">
             Sunny Kids Hospital
           </h1>
           <h2 className="text-2xl md:text-4xl leading-relaxed md:leading-snug mb-6 text-[#F8F988] animate-pulse">
@@ -65,7 +65,7 @@ const CheerfulHeroSection = () => {
           </p>
           <a
             href="#"
-            className="bg-[#FF9E9E] hover:bg-[#F8F988] text-white hover:text-[#FF9E9E] rounded-full shadow-lg hover:shadow-xl py-3 px-8 text-lg transition duration-300 transform hover:scale-110"
+            className="bg-[#F8F988] hover:bg-[#C0EEE4] text-white hover:text-[#FF9E9E] rounded-full shadow-lg hover:shadow-xl py-3 px-8 text-lg transition duration-300 transform hover:scale-110"
           >
             Start Your Adventure!
           </a>

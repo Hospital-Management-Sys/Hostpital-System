@@ -1,3 +1,4 @@
+
 const flowbite = require("flowbite-react/tailwind");
 
 
@@ -15,3 +16,4 @@ export default {
     flowbite.plugin(),
   ],
 }
+

@@ -3,7 +3,6 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Appointment from './pages/Appointment'
 import Booking from './pages/Booking'
 
 
@@ -17,7 +16,8 @@ import FindDrs from './pages/FindDrs';
 import Doctors from './pages/Doctors';
 import DoctorProfile from './components/doctorprofile'
 import AboutUsSection from './pages/about'
-
+import Appointment from './pages/Appointment';
+import AppointmentCalendar from './pages/AppointmentCalendar';
 import LoginForm from './components/loginForm'
 
 
@@ -29,13 +29,14 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
 
-        <Route path="/booking" element={<Booking />} />
+        <Route path="/Booking" element={<Booking />} />
         <Route path="/FindDrs" element={<FindDrs />} />
         <Route path="/Doctors" element={<Doctors />} />
         <Route path="/doctorP" element={<DoctorProfile />} />
         <Route path="/about" element={<AboutUsSection />} />
 
-
+        <Route path="/Appointment" element={<Appointment />} />
+        <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
 
         <Route path='/login' element={<LoginForm/>}/>
         

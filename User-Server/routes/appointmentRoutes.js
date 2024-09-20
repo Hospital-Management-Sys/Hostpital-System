@@ -1,9 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const { createAppointment, getAppointmentsForDoctor } = require('../controllers/appointmentController');
+const { addAvailableHour,updateAvailableHours,getAvailableHours } = require('../controllers/appointmentController'); // Ensure this path is correct
 
-// Routes for managing appointments
-router.post('/appointments', createAppointment);
-router.get('/doctors/:doctorId/appointments', getAppointmentsForDoctor);
+const router = express.Router();
+
+// Define the route for fetching doctors by specialization
+router.post('/', addAvailableHour);
+router.put('/update/:id', updateAvailableHours);
+router.get('/', getAvailableHours);
 
 module.exports = router;

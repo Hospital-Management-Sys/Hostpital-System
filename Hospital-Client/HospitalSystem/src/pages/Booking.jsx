@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 import React from 'react'
 import calender from '../assets/calender.gif'
 import {Link } from "react-router-dom";
+=======
+
+import React from 'react'
+import calender from '../assets/calender.gif'
+import {Link } from "react-router-dom";
+
+>>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
 
 function Booking() {
   return (
@@ -52,6 +60,10 @@ function Booking() {
                   
                   Use our intuitive search feature to find healthcare providers based on your needs and availability. Browse through doctor profiles to view their specialties, ratings, and schedules.                  </p>
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
               </div>
             </div>
             <div className="col-span-2 lg:col-span-1">

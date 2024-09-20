@@ -20,12 +20,22 @@ function FindDrs() {
             <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight dark:text-white">
               Your health, your choice, now find a 
               {' '}
+<<<<<<< HEAD
               <span className="text-[#FF9E9E]">doctor!</span>
+=======
+
+              <span className="text-[#FF9E9E]">doctor!</span>
+
+>>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
             </h1>
             <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">
               Hand-picked professionals and expertly crafted components, designed for any kind of entrepreneur.
             </p>
             
+<<<<<<< HEAD
+=======
+
+>>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
             <form className="flex items-center max-w-lg ml-[4px] mt-[12px]">
               <label className="sr-only" htmlFor="voice-search">Search</label>
               <div className="relative w-96">
@@ -38,6 +48,10 @@ function FindDrs() {
           </div>
           <div className="relative ms-4">
             <img alt="Hero Image" className="w-full h-[700px] rounded-md" src={doctors2} />
+<<<<<<< HEAD
+=======
+
+>>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
           </div>
         </div>
       </div>

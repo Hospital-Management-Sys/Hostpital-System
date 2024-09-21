@@ -10,7 +10,14 @@ export default {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: { colors: {
+      primary: '#FF6B6B',
+      secondary: '#F8F988',
+      tertiary: '#4ECDC4',
+    },
+    fontFamily: {
+      bubblegum: ['"Bubblegum Sans"', 'cursive'],
+    },},
   },
   plugins: [
     flowbite.plugin(),

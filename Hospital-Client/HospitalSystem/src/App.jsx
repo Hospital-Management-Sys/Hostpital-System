@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Provider } from 'react-redux';
 import store from './redux/store/store';
@@ -16,10 +17,10 @@ import ManageDoctorSchedules from './components/admin/ManageDoctorSchedules';
 import Navbar from './layouts/navbar'; // Adjust path as needed
 import HomePage from './pages/home';
 import Footer from './layouts/footer';
+import Doctors from './pages/Doctors';
 import Appointment from './pages/Appointment';
 import AppointmentCalendar from './pages/AppointmentCalendar';
 import FindDrs from './pages/FindDrs';
-import Doctors from './pages/Doctors';
 import DoctorProfile from './components/doctorprofile'
 import AboutUsSection from './pages/about'
 import Booking from './pages/Booking'

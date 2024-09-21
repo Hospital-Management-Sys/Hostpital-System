@@ -1,9 +1,6 @@
 
 const flowbite = require("flowbite-react/tailwind");
-
-
-/** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -19,8 +16,9 @@ export default {
       bubblegum: ['"Bubblegum Sans"', 'cursive'],
     },},
   },
-  plugins: [
-    flowbite.plugin(),
-  ],
-}
+  plugins: [ flowbite.plugin(),],
+};
+
+
+
 

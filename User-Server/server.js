@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const drRouter = require('./routes/drRoutes'); // Ensure this path is correct
+const availableHoursRoutes = require('./routes/appointmentRoutes'); // Ensure this path is correct
 
 require('dotenv').config();
 
@@ -22,6 +23,9 @@ const recordRoutes = require('./routes/recordRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 app.use('/api', recordRoutes);
 app.use(appointmentRoutes);
+
+app.use('/api/avahours', availableHoursRoutes); // Use the new routes
+
 // server connection
 app.listen(port, () => {
   console.log(`Running admin server on http://localhost:${port}`);

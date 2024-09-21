@@ -24,50 +24,45 @@ import FindDrs from './pages/FindDrs';
 import DoctorProfile from './components/doctorprofile'
 import AboutUsSection from './pages/about'
 import Booking from './pages/Booking'
-import Appointment from './pages/Appointment';
-import AppointmentCalendar from './pages/AppointmentCalendar';
+// import Appointment from './pages/Appointment';
+// import AppointmentCalendar from './pages/AppointmentCalendar';
 import LoginForm from './components/loginForm'
-import { Route } from 'react-router';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ContactForm from './components/contactus';
 
 
 const App = () => {
     return (
         <Provider store={store}>
-            <Router>
-       <Navbar />
-                <Routes>
-                 <Route path="/" element={<HomePage />} />
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/booking" element={<Booking />} />
+                <Route path="/find-doctors" element={<FindDrs />} />
+                <Route path="/doctors" element={<Doctors />} />
+                <Route path="/doctor-profile" element={<DoctorProfile />} />
+                <Route path="/about" element={<AboutUsSection />} />
+                <Route path="/contact-us" element={<ContactForm />} />
+                <Route path="/appointment" element={<Appointment />} />
+                <Route path="/appointment-calendar" element={<AppointmentCalendar />} />
+                <Route path="/login" element={<LoginForm />} />
 
-        <Route path="/Booking" element={<Booking />} />
-        <Route path="/FindDrs" element={<FindDrs />} />
-        <Route path="/Doctors" element={<Doctors />} />
-        <Route path="/Appointment" element={<Appointment />} />
-        <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
-        <Route path="/doctorP" element={<DoctorProfile />} />
-        <Route path="/about" element={<AboutUsSection />} />
-        <Route path='/contactus' element={<ContactForm/>}/>
-
-        <Route path="/Appointment" element={<Appointment />} />
-        <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
-
-        <Route path='/login' element={<LoginForm/>}/>
-                    {/* Admin Routes */}
-                    <Route path="/admin/AdminLogin" element={<AdminLogin />} />
-                    <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
-                    <Route path="/admin/ManageUsers" element={<ManageUsers />} />
-                    <Route path="/admin/ManagePatients" element={<ManagePatients />} />
-                    <Route path="/admin/ManageDoctors" element={<ManageDoctors />} />
-                    <Route path="/admin/ManageAppointments" element={<ManageAppointments />} />
-                    <Route path="/admin/ViewFeedback" element={<ViewFeedback />} />
-                    <Route path="/admin/ManagePayments" element={<ManagePayments />} />
-                    <Route path="/admin/ManageAvailableHours" element={<ManageAvailableHours />} />
-                    <Route path="/admin/ManageDoctorSchedules" element={<ManageDoctorSchedules />} />
-                    
-                </Routes>
-<Footer />
-            </Router>
-        </Provider>
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/manage-users" element={<ManageUsers />} />
+                <Route path="/admin/manage-patients" element={<ManagePatients />} />
+                <Route path="/admin/manage-doctors" element={<ManageDoctors />} />
+                <Route path="/admin/manage-appointments" element={<ManageAppointments />} />
+                <Route path="/admin/view-feedback" element={<ViewFeedback />} />
+                <Route path="/admin/manage-payments" element={<ManagePayments />} />
+                <Route path="/admin/manage-available-hours" element={<ManageAvailableHours />} />
+                <Route path="/admin/manage-doctor-schedules" element={<ManageDoctorSchedules />} />
+            </Routes>
+            <Footer />
+        </Router>
+    </Provider>
     );
 };
 

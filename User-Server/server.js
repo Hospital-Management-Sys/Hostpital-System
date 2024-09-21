@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const drRouter = require('./routes/drRoutes'); // Ensure this path is correct
 const availableHoursRoutes = require('./routes/appointmentRoutes'); // Ensure this path is correct
-
+const contactRoutes = require("./routes/contactusRouter");
 require('dotenv').config();
 
 // server constants
@@ -25,6 +25,7 @@ app.use('/api', recordRoutes);
 app.use(appointmentRoutes);
 
 app.use('/api/avahours', availableHoursRoutes); // Use the new routes
+app.use('/api/contact', contactRoutes);
 
 // server connection
 app.listen(port, () => {

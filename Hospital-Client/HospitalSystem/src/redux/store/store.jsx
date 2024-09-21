@@ -6,7 +6,8 @@ const store = configureStore({
     reducer: {
         admin: adminReducer,
        records: recordReducer,
-    },
+    }})
+
 
 
 export default store;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"; 
-import img from '../assets/3.png'; 
+import img from '../assets/3.gif'; 
 
 const Navbar = () => {
   return (
@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0 flex items-center space-x-4">
             <Link to="/">
-              <img className="h-20 w-20" src={img} alt="Hospital Logo" />
+              <img className="h-28 w-28" src={img} alt="Hospital Logo" />
             </Link>
             <Link to="/">
               <span className="text-white text-2xl font-bold">Sunny Kids</span>
@@ -51,7 +51,7 @@ const Navbar = () => {
               Login
             </Link>
             <Link
-              to="/book"
+              to="/booking"
               className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
             >
               Book Now

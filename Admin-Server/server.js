@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
+const db = require("./dbConfig/dbConfig");
 require("dotenv").config();
 
 //server constants

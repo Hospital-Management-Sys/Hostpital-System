@@ -27,6 +27,8 @@ import Booking from './pages/Booking'
 import Appointment from './pages/Appointment';
 import AppointmentCalendar from './pages/AppointmentCalendar';
 import LoginForm from './components/loginForm'
+import { Route } from 'react-router';
+import ContactForm from './components/contactus';
 
 
 const App = () => {
@@ -44,6 +46,7 @@ const App = () => {
         <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
         <Route path="/doctorP" element={<DoctorProfile />} />
         <Route path="/about" element={<AboutUsSection />} />
+        <Route path='/contactus' element={<ContactForm/>}/>
 
         <Route path="/Appointment" element={<Appointment />} />
         <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />

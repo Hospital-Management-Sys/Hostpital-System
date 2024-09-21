@@ -1,22 +1,32 @@
-//imports
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
+// imports
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const app = express();
-require("dotenv").config();
+const drRouter = require('./routes/drRoutes'); // Ensure this path is correct
+const availableHoursRoutes = require('./routes/appointmentRoutes'); // Ensure this path is correct
 
-//server constants
-const corsConfig = { origin: "http://localhost:5173", credentials: true };
+require('dotenv').config();
+
+// server constants
+// const corsConfig = { origin: "http://localhost:5173/", credentials: true };
 const port = process.env.PORT || 3000;
-//Middlewares:
-//cors
-app.use(cors(corsConfig));
-//bodyParser
+
+// Middlewares
+app.use(cors());
 app.use(bodyParser.json());
+app.use(express.json());
 
-//controllerRoutes:
+// controllerRoutes
+app.use('/drs', drRouter); // Corrected line
+const recordRoutes = require('./routes/recordRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+app.use('/api', recordRoutes);
+app.use(appointmentRoutes);
 
-//server connection
+app.use('/api/avahours', availableHoursRoutes); // Use the new routes
+
+// server connection
 app.listen(port, () => {
-  console.log(`Running admin server on port http://localhost:${port}`);
+  console.log(`Running admin server on http://localhost:${port}`);
 });

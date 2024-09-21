@@ -1,6 +1,6 @@
+
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'; // Import Navigate here
 import store from './redux/store/store';
 // admin imports
 import AdminLogin from './components/admin/AdminLogin';
@@ -13,14 +13,42 @@ import ViewFeedback from './components/admin/ViewFeedback';
 import ManagePayments from './components/admin/ManagePayments';
 import ManageAvailableHours from './components/admin/ManageAvailableHours';
 import ManageDoctorSchedules from './components/admin/ManageDoctorSchedules';
-// admin imports
+import Navbar from './layouts/navbar'; // Adjust path as needed
+import HomePage from './pages/home';
+import Footer from './layouts/footer';
+import Appointment from './pages/Appointment';
+import AppointmentCalendar from './pages/AppointmentCalendar';
+import FindDrs from './pages/FindDrs';
+import Doctors from './pages/Doctors';
+import DoctorProfile from './components/doctorprofile'
+import AboutUsSection from './pages/about'
+import Booking from './pages/Booking'
+import Appointment from './pages/Appointment';
+import AppointmentCalendar from './pages/AppointmentCalendar';
+import LoginForm from './components/loginForm'
+
 
 const App = () => {
     return (
         <Provider store={store}>
             <Router>
+       <Navbar />
                 <Routes>
-                    {/* Define your admin paths */}
+                 <Route path="/" element={<HomePage />} />
+
+        <Route path="/Booking" element={<Booking />} />
+        <Route path="/FindDrs" element={<FindDrs />} />
+        <Route path="/Doctors" element={<Doctors />} />
+        <Route path="/Appointment" element={<Appointment />} />
+        <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
+        <Route path="/doctorP" element={<DoctorProfile />} />
+        <Route path="/about" element={<AboutUsSection />} />
+
+        <Route path="/Appointment" element={<Appointment />} />
+        <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
+
+        <Route path='/login' element={<LoginForm/>}/>
+                    {/* Admin Routes */}
                     <Route path="/admin/AdminLogin" element={<AdminLogin />} />
                     <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
                     <Route path="/admin/ManageUsers" element={<ManageUsers />} />
@@ -31,13 +59,14 @@ const App = () => {
                     <Route path="/admin/ManagePayments" element={<ManagePayments />} />
                     <Route path="/admin/ManageAvailableHours" element={<ManageAvailableHours />} />
                     <Route path="/admin/ManageDoctorSchedules" element={<ManageDoctorSchedules />} />
-                    {/* Redirect any unmatched paths to /admin/login */}
-                    <Route path="/" element={<Navigate to="/admin/AdminLogin" />} />
-                    {/* Add other routes as needed */}
+                    
                 </Routes>
+<Footer />
             </Router>
         </Provider>
     );
 };
 
 export default App;
+
+

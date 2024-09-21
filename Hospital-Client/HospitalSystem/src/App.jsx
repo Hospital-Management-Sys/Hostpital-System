@@ -1,43 +1,40 @@
 
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-<<<<<<< HEAD
-import Booking from './pages/Booking'
-
-
-=======
->>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './redux/store/store';
+// admin imports
+import AdminLogin from './components/admin/AdminLogin';
+import AdminDashboard from './components/admin/AdminDashboard'; 
+import ManageUsers from './components/admin/ManageUsers';
+import ManagePatients from './components/admin/ManagePatients';
+import ManageDoctors from './components/admin/ManageDoctors';
+import ManageAppointments from './components/admin/ManageAppointments';
+import ViewFeedback from './components/admin/ViewFeedback';
+import ManagePayments from './components/admin/ManagePayments';
+import ManageAvailableHours from './components/admin/ManageAvailableHours';
+import ManageDoctorSchedules from './components/admin/ManageDoctorSchedules';
 import Navbar from './layouts/navbar'; // Adjust path as needed
 import HomePage from './pages/home';
 import Footer from './layouts/footer';
-import FindDrs from './pages/FindDrs';
-import Doctors from './pages/Doctors';
-import Booking from './pages/Booking';
 import Appointment from './pages/Appointment';
 import AppointmentCalendar from './pages/AppointmentCalendar';
 import FindDrs from './pages/FindDrs';
 import Doctors from './pages/Doctors';
 import DoctorProfile from './components/doctorprofile'
 import AboutUsSection from './pages/about'
-<<<<<<< HEAD
+import Booking from './pages/Booking'
 import Appointment from './pages/Appointment';
 import AppointmentCalendar from './pages/AppointmentCalendar';
-=======
->>>>>>> e9b6746693fe4f7b080149da570eb84bcf46ff54
 import LoginForm from './components/loginForm'
 
 
-function App() {
-  return (
-
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+const App = () => {
+    return (
+        <Provider store={store}>
+            <Router>
+       <Navbar />
+                <Routes>
+                 <Route path="/" element={<HomePage />} />
 
         <Route path="/Booking" element={<Booking />} />
         <Route path="/FindDrs" element={<FindDrs />} />
@@ -51,15 +48,24 @@ function App() {
         <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
 
         <Route path='/login' element={<LoginForm/>}/>
-        
-
-
-      </Routes>
-      <Footer />
-    </Router>
-  );
-
-}
+                    {/* Admin Routes */}
+                    <Route path="/admin/AdminLogin" element={<AdminLogin />} />
+                    <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
+                    <Route path="/admin/ManageUsers" element={<ManageUsers />} />
+                    <Route path="/admin/ManagePatients" element={<ManagePatients />} />
+                    <Route path="/admin/ManageDoctors" element={<ManageDoctors />} />
+                    <Route path="/admin/ManageAppointments" element={<ManageAppointments />} />
+                    <Route path="/admin/ViewFeedback" element={<ViewFeedback />} />
+                    <Route path="/admin/ManagePayments" element={<ManagePayments />} />
+                    <Route path="/admin/ManageAvailableHours" element={<ManageAvailableHours />} />
+                    <Route path="/admin/ManageDoctorSchedules" element={<ManageDoctorSchedules />} />
+                    
+                </Routes>
+<Footer />
+            </Router>
+        </Provider>
+    );
+};
 
 export default App;
 

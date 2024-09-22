@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import img from '../assets/20.jpg'
+import img from '../assets/20.jpg';
+import AppointmentCalendar from '../pages/AppointmentCalendar'; // Import the AppointmentCalendar component
+
 const TabButton = ({ active, onClick, children, icon }) => (
   <button
     className={`px-4 py-2 font-semibold transition-all duration-300 flex items-center ${
@@ -33,8 +35,6 @@ const DoctorProfile = () => {
   const [activeTab, setActiveTab] = useState('records');
   const [patientName, setPatientName] = useState('');
   const [treatmentPlan, setTreatmentPlan] = useState('');
-  const [appointmentDate, setAppointmentDate] = useState('');
-  const [appointmentTime, setAppointmentTime] = useState('');
   const [patientEmail, setPatientEmail] = useState('');
   const [message, setMessage] = useState('');
 
@@ -73,25 +73,10 @@ const DoctorProfile = () => {
         );
       case 'appointments':
         return (
-          <form onSubmit={handleSubmit}>
-            <InputField
-              label="Appointment Date"
-              id="appointmentDate"
-              type="date"
-              value={appointmentDate}
-              onChange={(e) => setAppointmentDate(e.target.value)}
-            />
-            <InputField
-              label="Appointment Time"
-              id="appointmentTime"
-              type="time"
-              value={appointmentTime}
-              onChange={(e) => setAppointmentTime(e.target.value)}
-            />
-            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300">
-              Schedule Appointment
-            </button>
-          </form>
+          // Render the AppointmentCalendar component here
+          <div className="mt-8">
+            <AppointmentCalendar />
+          </div>
         );
       case 'communication':
         return (
@@ -139,7 +124,6 @@ const DoctorProfile = () => {
           onClick={() => setActiveTab('records')}
           icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
-            <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
           </svg>}
         >
           Records
@@ -148,7 +132,7 @@ const DoctorProfile = () => {
           active={activeTab === 'appointments'} 
           onClick={() => setActiveTab('appointments')}
           icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+            <path d="M10 9V2H4v7H3v1h7V9z" />
           </svg>}
         >
           Appointments
@@ -157,17 +141,14 @@ const DoctorProfile = () => {
           active={activeTab === 'communication'} 
           onClick={() => setActiveTab('communication')}
           icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+            <path d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3z" />
           </svg>}
         >
-          Messages
+          Communication
         </TabButton>
       </div>
 
-      <div className="bg-white shadow-lg rounded-3xl p-6 border-t-4 border-blue-500">
-        {renderTabContent()}
-      </div>
+      <div>{renderTabContent()}</div>
     </div>
   );
 };

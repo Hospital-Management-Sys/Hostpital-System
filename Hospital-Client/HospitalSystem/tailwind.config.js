@@ -7,6 +7,7 @@ module.exports = {
     flowbite.content(),
   ],
   theme: {
+
     extend: {
       colors: {
         primary: '#FF6B6B',
@@ -17,10 +18,12 @@ module.exports = {
         coral: '#FFCAC8',
         red: '#FF9E9E',
       },
-      fontFamily: {
-        bubblegum: ['"Bubblegum Sans"', 'cursive'],
-      },
+     
+
     },
+    fontFamily: {
+      bubblegum: ['"Bubblegum Sans"', 'cursive'],
+    },},
   },
   plugins: [
     flowbite.plugin(),

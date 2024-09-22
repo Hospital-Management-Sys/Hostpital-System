@@ -1,33 +1,73 @@
-const pool = require('../dbConfig/dbConfig'); // Ensure this path is correct
+const pool = require('../dbConfig/dbConfig');
 
+// Function to fetch all doctors
+const getAllDoctors = async (req, res) => {
+  try {
+    const query = `SELECT * FROM Doctors`;
+    const result = await pool.query(query);
+
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows);
+    } else {
+      res.status(404).json({ message: "No doctors found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Function to fetch doctors by specialization
 const getDoctorsBySpecialization = async (req, res) => {
+
   const { specialization } = req.query; // Get the specialization from the query parameter(URL)
+
 
   if (!specialization) {
     return res.status(400).json({ message: "Specialization is required" });
   }
 
   try {
-    // Raw SQL query to fetch doctors by specialization
-    const query = 
-     ` SELECT * FROM Doctors
-      WHERE specialization = $1`;
-    ;
-
-    // Execute the query
+    const query = `SELECT * FROM Doctors WHERE specialization = $1`;
     const result = await pool.query(query, [specialization]);
 
-    // If doctors are found, send them as a response
     if (result.rows.length > 0) {
       res.status(200).json(result.rows);
     } else {
       res.status(404).json({ message: "No doctors found with this specialization" });
     }
   } catch (error) {
-    // Handle any errors that occur during the query execution
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-module.exports = { getDoctorsBySpecialization };
+// Function to fetch a doctor by ID
+const getDoctorById = async (req, res) => {
+    const { id } = req.params; // The doctor id will come from the request parameters
+  
+    try {
+      // Use 'user_id' instead of 'id' since that's the correct column name
+      const query = `SELECT * FROM Doctors WHERE user_id = $1`;
+      const result = await pool.query(query, [id]);
+  
+      // If the doctor is found, return the doctor details
+      if (result.rows.length > 0) {
+        res.status(200).json(result.rows[0]);
+      } else {
+        res.status(404).json({ message: "Doctor not found" });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  
+  
+
+module.exports = {
+  getAllDoctors,
+  getDoctorsBySpecialization,
+  getDoctorById,
+};

@@ -44,7 +44,7 @@ class User {
         "SELECT user_id,email,password,name FROM Patients WHERE email=$1",
         [userCredentials.email]
       );
-      console.log(result);
+      console.log(result.rows[0]);
       if (result.rows[0]) {
         const hashedPassword = result.rows[0].password;
         const isVerified = verifyPassword({
@@ -56,6 +56,7 @@ class User {
             user: result.rows[0].user_id,
             message: "User Returned Successfully",
             isReturned: true,
+            role: "Patient",
           };
         else return { message: "Invalid Credentials", isReturned: false };
       } else return { message: "Invalid Credentials", isReturned: false };

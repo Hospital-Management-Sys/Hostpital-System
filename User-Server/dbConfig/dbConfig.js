@@ -1,23 +1,27 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
+// Database configuration
 const dbConfig = {
-  user: "postgres",
-  password: process.env.PASSWORD,
-  host: process.env.HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  host: process.env.DB_HOST,
   port: process.env.DB_PORT,
-  database: process.env.DATABASE,
+  database: process.env.DB_NAME,
 };
+console.log(dbConfig);
 
 const pool = new Pool(dbConfig);
 
-pool.connect((err, client, release) => {
-  if (err) {
-    console.error("Error acquiring client", err.stack);
-  } else {
+
+(async () => {
+  try {
+    const client = await pool.connect();
     console.log("Database connected successfully");
-    release();
+    client.release(); 
+  } catch (err) {
+    console.error("Error connecting to the database", err.stack);
   }
-});
+})();
 
 module.exports = pool;

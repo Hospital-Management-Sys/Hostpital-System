@@ -44,7 +44,7 @@ const CallToActionSection = () => {
         </a>
       </div>
 
-      {/* Optional Decorative Elements */}
+      
       <div className="absolute top-0 left-0 w-20 h-20 bg-[#FF9E9E] rounded-full opacity-50 animate-pulse"></div>
       <div className="absolute bottom-0 right-0 w-32 h-32 bg-[#F8F988] rounded-full opacity-50 animate-bounce"></div>
     </section>

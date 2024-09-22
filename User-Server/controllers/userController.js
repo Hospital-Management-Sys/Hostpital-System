@@ -1,8 +1,10 @@
 const generateToken = require("../utils/generateToken");
 const { createUser, loginUser } = require("../models/User");
+const { loginDoctor } = require("../models/Doctor");
 exports.registerUser = async (req, res) => {
   const userData = req.body;
-
+  console.log(req.picture);
+  console.log(userData);
   try {
     const result = await createUser(userData);
 
@@ -10,13 +12,11 @@ exports.registerUser = async (req, res) => {
       const cookieOptions = {
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24,
-        sameSite: "none",
+        sameSite: "None",
         secure: true,
       };
       const token = generateToken(result.user);
-
       res.cookie("token", token, cookieOptions);
-      console.log(token);
       res
         .status(201)
         .json({ message: "User successfully created", role: "Patient" });
@@ -30,9 +30,16 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, isDoctor } = req.body;
+
   try {
-    const result = await loginUser({ email, password });
+    let result;
+    if (isDoctor === "true") {
+      result = await loginDoctor({ email, password });
+    } else {
+      result = await loginUser({ email, password });
+    }
+    console.log(result);
     if (result.isReturned) {
       const cookieOptions = {
         httpOnly: true,
@@ -44,7 +51,7 @@ exports.loginUser = async (req, res) => {
       res.cookie("token", token, cookieOptions);
       res
         .status(200)
-        .json({ message: "User successfully created", role: "Patient" });
+        .json({ message: "User successfully created", role: `${result.role}` });
     } else {
       res.status(204).json({ message: "Invalid Credentials" });
     }

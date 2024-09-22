@@ -10,7 +10,8 @@ const recordRoutes = require("./routes/recordRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const patientRoutes = require("./routes/patientRoutes");
 const cookieParser = require("cookie-parser");
-require("dotenv").config();
+const contactRoutes = require("./routes/contactusRouter");
+require('dotenv').config();
 
 // server constants
 const corsConfig = { origin: "http://localhost:5173", credentials: false };
@@ -32,6 +33,11 @@ app.use("/api", recordRoutes);
 app.use(appointmentRoutes);
 app.use("/api/avahours", availableHoursRoutes);
 app.use("/api/users", processImage, patientRoutes);
+app.use('/api/avahours', availableHoursRoutes); 
+app.use('/api/contact', contactRoutes);
+
+
+
 // server connection
 app.listen(port, () => {
   console.log(`Running server on port http://localhost:${port}`);

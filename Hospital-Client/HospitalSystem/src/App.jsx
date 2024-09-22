@@ -2,6 +2,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store/store";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 // admin imports
+
 import AdminLogin from "./components/admin/AdminLogin";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import ManageUsers from "./components/admin/ManageUsers";
@@ -22,10 +23,13 @@ import FindDrs from "./pages/FindDrs";
 import DoctorProfile from "./components/doctorprofile";
 import AboutUsSection from "./pages/about";
 import Booking from "./pages/Booking";
+import LoginForm from './components/loginForm'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ContactForm from './components/contactus';
 
-import LoginForm from "./components/loginForm";
 
 const App = () => {
+
   return (
     <Provider store={store}>
       <Router>
@@ -51,6 +55,7 @@ const App = () => {
           />
 
           <Route path="/login" element={<LoginForm />} />
+             <Route path="/contact-us" element={<ContactForm />} />
           {/* Admin Routes */}
           <Route path="/admin/AdminLogin" element={<AdminLogin />} />
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
@@ -76,6 +81,10 @@ const App = () => {
       </Router>
     </Provider>
   );
+
+    
+    );
+
 };
 
 export default App;

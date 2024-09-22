@@ -21,7 +21,7 @@ const EventsSection = () => {
       description: "Bring your favorite stuffed animal for a check-up and learn about doctor visits!"
     },
     {
-      title: "Healthy Eating Fun Day",
+      title: "Healthy Eating Day",
       date: "October 2, 2024",
       description: "Join us for games, activities, and tasty treats that are good for you!"
     },

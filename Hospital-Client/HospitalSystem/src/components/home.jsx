@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import img from '../assets/2.png'
+import { Link } from 'react-router-dom';
+
 const CheerfulHeroSection = () => {
   const [hoveredIcon, setHoveredIcon] = useState(null);
 
@@ -63,12 +65,12 @@ const CheerfulHeroSection = () => {
           <p className="text-lg md:text-xl text-gray-700 mb-8">
             Join us for a magical journey of health, happiness, and lots of fun! Our friendly doctors and nurses are here to make you feel super-duper better.
           </p>
-          <a
-            href="#"
-            className="bg-[#F8F988] hover:bg-[#C0EEE4] text-white hover:text-[#FF9E9E] rounded-full shadow-lg hover:shadow-xl py-3 px-8 text-lg transition duration-300 transform hover:scale-110"
+          <Link
+            to="/login"
+           className="bg-[#F8F988] hover:bg-[#C0EEE4] text-white hover:text-[#FF9E9E] rounded-full shadow-lg hover:shadow-xl py-3 px-8 text-lg transition duration-300 transform hover:scale-110"
           >
-            Start Your Adventure!
-          </a>
+              Start Your Adventure!
+        </Link>
         </div>
         <div className="w-full lg:w-1/2 p-8 flex justify-center items-center">
           <div className="relative w-full max-w-lg">

@@ -90,7 +90,7 @@ const TeamCarousel = () => {
         <div className="container mx-auto px-4 text-center mt-10 border-[#F8F988]">
         <a
           href="#book-appointment"
-          className="inline-block bg-[#C0EEE4] text-[#FF9E9E]  font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#FF9E9E] hover:text-white hover:scale-110 transition duration-300 ease-in-out"
+          className="inline-block bg-[#F8F988] text-[#FF9E9E]  font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#FF9E9E] hover:text-white hover:scale-110 transition duration-300 ease-in-out"
         >
           Book an Appointment
         </a>

@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const drRouter = require('./routes/drRoutes'); // Ensure this path is correct
 const availableHoursRoutes = require('./routes/appointmentRoutes'); // Ensure this path is correct
-const contactRoutes = require('./routes/contactRout');
+// const contactRoutes = require('./routes/contactRout');
 require('dotenv').config();
 
 // server constants

@@ -19,7 +19,7 @@ import FindDrs from './pages/FindDrs';
 import Doctors from './pages/Doctors';
 import DoctorProfile from './components/doctorprofile'
 import AboutUsSection from './pages/about'
-import ContactForm from './pages/contactUs';
+
 
 import LoginForm from './components/loginForm'
 
@@ -39,7 +39,7 @@ function App() {
         <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
         <Route path="/doctorP" element={<DoctorProfile />} />
         <Route path="/about" element={<AboutUsSection />} />
-        {/* <Route path="/contact" element={<ContactForm />} /> */}
+        
 
 
         

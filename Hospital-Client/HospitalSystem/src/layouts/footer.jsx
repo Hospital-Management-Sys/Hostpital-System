@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="relative bg-[#FF9E9E] py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center">
-          <img className="h-32 w-32 mb-4" src={img} alt="Hospital Logo" />
+          <img className="h-32 w-32 " src={img} alt="Hospital Logo" />
           <span className="text-white text-2xl font-bold mb-4">Sunny Kids</span>
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-x-4 md:space-y-0">
             <Link

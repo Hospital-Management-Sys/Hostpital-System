@@ -1,8 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom"; 
-import img from '../assets/3.gif'; 
+import { Link } from "react-router-dom";
+import img from "../assets/3.png";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoggedIn } from "../redux/slices/authSlice/authSlice";
+
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <nav className="relative bg-[#FF9E9E] h-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,12 +49,25 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex space-x-4">
-            <Link
-              to="/login"
-              className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
-            >
-              Login
-            </Link>
+            {!isLoggedIn ? (
+              <Link
+                to="/login"
+                className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+              >
+                Login
+              </Link>
+            ) : (
+              <Link
+                onClick={() => {
+                  dispatch(setLoggedIn());
+                  sessionStorage.clear();
+                }}
+                className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+              >
+                Logout
+              </Link>
+            )}
+
             <Link
               to="/booking"
               className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
@@ -66,10 +84,7 @@ const Navbar = () => {
           preserveAspectRatio="none"
           className="relative block w-full h-8"
         >
-          <path
-            d="M0,40 Q200,100 500,50 T600,40 V80 H0 Z"
-            fill="white"
-          />
+          <path d="M0,40 Q200,100 500,50 T600,40 V80 H0 Z" fill="white" />
         </svg>
       </div>
     </nav>

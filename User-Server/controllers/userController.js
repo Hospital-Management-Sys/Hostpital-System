@@ -1,5 +1,5 @@
 const generateToken = require("../utils/generateToken");
-const { createUser, loginUser } = require("../models/User");
+const { createUser, loginUser, getUserData } = require("../models/User");
 const { loginDoctor } = require("../models/Doctor");
 exports.registerUser = async (req, res) => {
   const userData = req.body;
@@ -50,13 +50,29 @@ exports.loginUser = async (req, res) => {
       const token = generateToken(result.user);
       res.cookie("token", token, cookieOptions);
       res
-        .status(200)
+        .status(201)
         .json({ message: "User successfully created", role: `${result.role}` });
     } else {
       res.status(204).json({ message: "Invalid Credentials" });
     }
   } catch (e) {
     console.log(e);
+    res.status(501).json({ message: "Internal server error", error: e });
+  }
+};
+
+exports.getUserData = async (req, res) => {
+  const userID = req.user;
+  try {
+    const user = await getUserData(userID);
+    if (user.isReturned) {
+      res
+        .status(200)
+        .json({ message: "User data fetched successfully", user: user.user });
+    } else {
+      res.status(204).json({ message: "No user Data was found" });
+    }
+  } catch (e) {
     res.status(501).json({ message: "Internal server error", error: e });
   }
 };

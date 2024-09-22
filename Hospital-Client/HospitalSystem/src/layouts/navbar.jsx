@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 import img from "../assets/3.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoggedIn } from "../redux/slices/authSlice/authSlice";
+import {
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
+} from "@material-tailwind/react";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -56,15 +62,19 @@ const Navbar = () => {
                 Login
               </Link>
             ) : (
-              <Link
-                onClick={() => {
-                  dispatch(setLoggedIn());
-                  sessionStorage.clear();
-                }}
-                className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
-              >
-                Logout
-              </Link>
+              <Menu>
+                <MenuHandler>
+                  <Link
+                    onClick={() => {
+                      dispatch(setLoggedIn());
+                      sessionStorage.clear();
+                    }}
+                    className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+                  >
+                    {`Welcome ${"UserName"}`}
+                  </Link>
+                </MenuHandler>
+              </Menu>
             )}
 
             <Link

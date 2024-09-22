@@ -20,9 +20,7 @@ app.use(express.json());
 // controllerRoutes
 app.use('/drs', drRouter); // Corrected line
 const recordRoutes = require('./routes/recordRoutes');
-const appointmentRoutes = require('./routes/appointmentRoutes');
 app.use('/api', recordRoutes);
-app.use(appointmentRoutes);
 
 app.use('/api/avahours', availableHoursRoutes); // Use the new routes
 

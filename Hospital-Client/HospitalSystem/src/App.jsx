@@ -27,7 +27,6 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-
         <Route path="/Booking" element={<Booking />} />
         <Route path="/FindDrs" element={<FindDrs />} />
         <Route path="/Doctors" element={<Doctors />} />
@@ -35,14 +34,10 @@ function App() {
         <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
         <Route path="/doctorP" element={<DoctorProfile />} />
         <Route path="/about" element={<AboutUsSection />} />
-
         <Route path="/Appointment" element={<Appointment />} />
         <Route path="/AppointmentCalendar" element={<AppointmentCalendar />} />
-
         <Route path='/login' element={<LoginForm/>}/>
         
-
-
       </Routes>
       <Footer />
     </Router>

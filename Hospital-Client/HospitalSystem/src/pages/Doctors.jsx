@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'; // For accessing URL parameters
-import dr1 from '../assets/dr1.jpg'; // Replace with dynamic images from backend if needed
-import dr2 from '../assets/dr2.jpg'; // Replace with dynamic images from backend if needed
+import dr1 from '../assets/dr1.jpg'; 
+import dr2 from '../assets/dr2.jpg'; 
 import axios from 'axios';
 import {Link } from "react-router-dom";
 
 function Doctors() {
-  const [doctors, setDoctors] = useState([]); // State to store fetched doctors
+  const [doctors, setDoctors] = useState([]); 
   const location = useLocation(); // To get the current URL and query params
   const queryParams = new URLSearchParams(location.search); // Extract query params from URL
   const specialization = queryParams.get('specialization'); // Get the specialization from the URL
@@ -16,7 +16,9 @@ function Doctors() {
     const fetchDoctors = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/drs?specialization=${specialization}`);
-        setDoctors(response.data); // Store the fetched doctors in state
+        setDoctors(response.data); 
+         
+        // Store the fetched doctors in state
       } catch (error) {
         console.error("Error fetching doctors:", error);
       }
@@ -49,16 +51,16 @@ function Doctors() {
                 <p className="mb-4 text-sm font-medium text-gray-500">{doctor.title}</p>
                 <div className="flex space-x-2">
                   <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
-                    <p className="text-sm font-medium text-gray-500">Articles</p>
-                    <p className="text-3xl font-medium text-gray-600">{doctor.articles}</p>
+                    <p className="text-sm font-medium text-gray-500">years of experience</p>
+                    <p className="text-3xl font-medium text-gray-600">{doctor.years_of_experience}</p>
                   </div>
                   <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
-                    <p className="text-sm font-medium text-gray-500">Papers</p>
-                    <p className="text-3xl font-medium text-gray-600">{doctor.papers}</p>
+                    <p className="text-sm font-medium text-gray-500">specialization</p>
+                    <p className="text-2xl font-bold text-gray-600">{doctor.specialization}</p>
                   </div>
                   <div className="flex flex-col items-center rounded-xl bg-gray-100 px-4 py-2">
-                    <p className="text-sm font-medium text-gray-500">Speciality</p>
-                    <p className="text-sm font-medium text-gray-600">{doctor.speciality}</p>
+                    <p className="text-lg font-medium text-gray-500">Articles</p>
+                    <p className="text-2xl font-bold text-gray-600">{3}</p>
                   </div>
                 </div>
                 <div className="mb-3" />

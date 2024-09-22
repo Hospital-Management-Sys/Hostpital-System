@@ -9,7 +9,7 @@ function Booking() {
   <div className="container px-4 mx-auto">
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
       <div className="w-full lg:w-1/3">
-        <div className="bg-yellow-200 dark:bg-slate-700 dark:bg-opacity-40 rounded-b-[200px] text-center h-full -mt-24 px-4">
+        <div className="bg-yellow-100 dark:bg-slate-700 dark:bg-opacity-40 rounded-b-[200px] text-center h-full -mt-24 px-4">
           <img
             alt=""
             className="rounded mx-auto "

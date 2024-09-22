@@ -1,7 +1,7 @@
 const pool = require('../dbConfig/dbConfig'); // Ensure this path is correct
 
 const getDoctorsBySpecialization = async (req, res) => {
-  const { specialization } = req.query; // Get the specialization from the query parameter
+  const { specialization } = req.query; // Get the specialization from the query parameter(URL)
 
   if (!specialization) {
     return res.status(400).json({ message: "Specialization is required" });

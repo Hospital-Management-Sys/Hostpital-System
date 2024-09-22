@@ -6,6 +6,7 @@ const initialState = {
   status: "idle",
   error: "",
   isLogin: true,
+  statusCode: "",
   isLoggedIn: sessionStorage.getItem("isLoggedIn") || false,
 };
 
@@ -32,10 +33,12 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.role = action.payload;
+        state.statusCode = action.payload.statusCode;
+        state.role = action.payload.role;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";
+        state.statusCode = action.payload.statusCode;
         state.error = action.error.message;
       })
       .addCase(registerUser.pending, (state) => {
@@ -43,10 +46,12 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.role = action.payload;
+        state.statusCode = action.payload.statusCode;
+        state.role = action.payload.role;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = "failed";
+        state.statusCode = action.payload.statusCode;
         state.error = action.error.message;
       });
   },
@@ -54,4 +59,4 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { logoutUser, setLogin ,setLoggedIn} = authSlice.actions;
+export const { logoutUser, setLogin, setLoggedIn } = authSlice.actions;

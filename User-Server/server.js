@@ -9,6 +9,7 @@ const availableHoursRoutes = require("./routes/appointmentRoutes");
 const recordRoutes = require("./routes/recordRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const patientRoutes = require("./routes/patientRoutes");
+const userRoutes=require("./routes/userRoutes");
 const cookieParser = require("cookie-parser");
 const contactRoutes = require("./routes/contactusRouter");
 require('dotenv').config();

@@ -65,6 +65,21 @@ class User {
       throw e;
     }
   }
+  static async getUserData(userID) {
+    try {
+      const result = await pool.query("SELECT * FROM Users WHERE user_id=$1", [
+        userID,
+      ]);
+      if (result.rows[0]) {
+        return { user: result.rows[0], isReturned: true };
+      } else {
+        return { message: "No User Found", isReturned: false };
+      }
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 }
 
 module.exports = User;

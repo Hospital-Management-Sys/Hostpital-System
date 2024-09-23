@@ -27,14 +27,21 @@ const useAuth = () => {
 
     if (auth.isLogin) {
       dispatch(loginUser(data));
-      dispatch(setLoggedIn());
-      sessionStorage.setItem("isLoggedIn", true);
-      navigate("/");
+
+      if (auth.statusCode == 201) {
+        dispatch(setLoggedIn());
+        sessionStorage.setItem("isLoggedIn", true);
+        navigate("/");
+      }
     } else {
       dispatch(registerUser(data));
-      dispatch(setLoggedIn());
+
       sessionStorage.setItem("isLoggedIn", true);
-      navigate("/");
+      if (auth.statusCode == 201) {
+        dispatch(setLoggedIn());
+        sessionStorage.setItem("isLoggedIn", true);
+        navigate("/");
+      }
     }
   };
   return { handleSubmit, role: auth.role };

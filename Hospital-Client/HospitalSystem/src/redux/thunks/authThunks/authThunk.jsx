@@ -7,7 +7,7 @@ const registerUser = createAsyncThunk("user/registerUser", async (userData) => {
       headers: { "Content-Type": "multipart/form-data" },
     });
     console.log(response.data);
-    return response.data.role;
+    return { role: response.data.role, statusCode: response.status };
   } catch (e) {
     console.log(e);
   }
@@ -22,7 +22,8 @@ const loginUser = createAsyncThunk(
         userCredentials
       );
       console.log(response);
-      return response.data.role;
+sessionStorage.setItem("doctor",JSON.stringify(response.data.user))
+      return { role: response.data.role, statusCode: response.status };
     } catch (e) {
       console.log(e);
     }

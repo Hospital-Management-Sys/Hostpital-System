@@ -49,6 +49,8 @@ const ContactForm = () => {
     { Icon: Gift, color: '#FF69B4', text: 'Special Surprises' },
   ];
 
+  const inputClasses = `w-full px-4 py-3 rounded-full focus:outline-none transition duration-300 bg-white bg-opacity-50 border-2 focus:border-[${formData.favoriteColor}]`;
+
   return (
     <section className="bg-white py-12 sm:py-20 overflow-hidden relative">
       <style>
@@ -87,9 +89,9 @@ const ContactForm = () => {
       </style>
       <div className="container mx-auto max-w-lg relative z-10">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#fff7f7] to-[#f2fcfa] animate-gradient-move opacity-90"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#ffb1b1] to-[#d9f5ef] animate-gradient-move opacity-90"></div>
           <div className="relative z-10 p-8">
-            <h2 className="text-4xl font-bold text-center text-[#C0EEE4] mb-6 animate-bounce">
+            <h2 className="text-4xl font-bold text-center text-[#4d5f5b] mb-6 animate-bounce">
               Send a Sunny Message!
             </h2>
             <p className="text-xl text-center text-[#F8F988] mb-8 animate-pulse">
@@ -97,54 +99,58 @@ const ContactForm = () => {
             </p>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="group">
-                <label className="block text-[#FF9E9E] font-bold mb-2" htmlFor="name">Your Superhero Name</label>
+                <label className="block font-bold mb-2" style={{ color: formData.favoriteColor }} htmlFor="name">Your Superhero Name</label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-full focus:outline-none transition duration-300 bg-white bg-opacity-50 border-2 border-[#F8F988] focus:border-[#FF9E9E]"
+                  className={inputClasses}
+                  style={{ borderColor: formData.favoriteColor }}
                   required
                   placeholder="e.g. Captain Awesome"
                 />
               </div>
               <div className="group">
-                <label className="block text-[#FF9E9E] font-bold mb-2" htmlFor="email">Your Magic Email</label>
+                <label className="block font-bold mb-2" style={{ color: formData.favoriteColor }} htmlFor="email">Your Magic Email</label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-full focus:outline-none transition duration-300 bg-white bg-opacity-50 border-2 border-[#F8F988] focus:border-[#FF9E9E]"
+                  className={inputClasses}
+                  style={{ borderColor: formData.favoriteColor }}
                   required
                   placeholder="superhero@sunnykids.com"
                 />
               </div>
               <div className="group">
-                <label className="block text-[#FF9E9E] font-bold mb-2" htmlFor="subject">Your Super Power</label>
+                <label className="block font-bold mb-2" style={{ color: formData.favoriteColor }} htmlFor="subject">Your Super Power</label>
                 <input
                   type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-full focus:outline-none transition duration-300 bg-white bg-opacity-50 border-2 border-[#F8F988] focus:border-[#FF9E9E]"
+                  className={inputClasses}
+                  style={{ borderColor: formData.favoriteColor }}
                   placeholder="e.g. Giggle Blast"
                 />
               </div>
               <div className="group">
-                <label className="block text-[#FF9E9E] font-bold mb-2" htmlFor="message">Your Magical Message</label>
+                <label className="block font-bold mb-2" style={{ color: formData.favoriteColor }} htmlFor="message">Your Magical Message</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl focus:outline-none transition duration-300 bg-white bg-opacity-50 border-2 border-[#F8F988] focus:border-[#FF9E9E]"
+                  className={`${inputClasses} rounded-xl`}
+                  style={{ borderColor: formData.favoriteColor }}
                   rows="4"
                   required
                   placeholder="Share your super awesome thoughts!"
                 />
               </div>
               <div className="group">
-                <label className="block text-[#FF9E9E] font-bold mb-2" htmlFor="favoriteColor">Your Favorite Color</label>
+                <label className="block font-bold mb-2" style={{ color: formData.favoriteColor }} htmlFor="favoriteColor">Your Favorite Color</label>
                 <input
                   type="color"
                   name="favoriteColor"
@@ -155,7 +161,8 @@ const ContactForm = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-4 rounded-full font-bold text-lg flex items-center justify-center group relative overflow-hidden bg-[#FF9E9E] text-white hover:bg-[#F8F988] hover:text-[#FF9E9E] transition-all duration-300 transform hover:scale-110"
+                className="w-full py-4 rounded-full font-bold text-lg flex items-center justify-center group relative overflow-hidden text-white transition-all duration-300 transform hover:scale-110"
+                style={{ backgroundColor: formData.favoriteColor }}
                 disabled={submitStatus === 'submitting'}
               >
                 <span className="relative z-10 flex items-center">

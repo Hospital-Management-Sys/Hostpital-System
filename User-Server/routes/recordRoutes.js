@@ -1,18 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { createRecord, getRecordsForDoctor, getRecordsByPatientId, updateRecord } = require('../controllers/recordController');
+const doctorRecordsController = require('../controllers/recordController');
 
+// Get all records for the doctor
+router.get('/:doctorId/patient-records', doctorRecordsController.getDoctorRecords);
 
-// POST route to create a new patient record
-router.post('/doctors/:doctorId/patient-records',  createRecord);
+// Add a new patient record
+router.post('/:doctorId/records', doctorRecordsController.addPatientRecord);
 
-// GET route to retrieve all records for a specific doctor
-router.get('/doctors/:doctorId/patient-records',  getRecordsForDoctor);
-
-// GET route to retrieve records for a specific patient by patient_id
-router.get('/patient-records/:patientId',  getRecordsByPatientId);
-
-// PUT route to update a specific patient record
-router.put('/patient-records/:recordId',  updateRecord);
+// Edit an existing patient record
+router.put('/:doctorId/records/:recordId', doctorRecordsController.editPatientRecord);
 
 module.exports = router;

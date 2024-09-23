@@ -1,106 +1,97 @@
-const pool = require('../dbConfig/dbConfig');
+const db = require('../dbConfig/dbConfig'); // Assuming you use PostgreSQL
 
-// Create a new medical record
-const createRecord = async (req, res) => {
-  const { doctorId } = req.params;
-  const { patient_id, diagnosis, treatment } = req.body;
-
-  console.log(`Creating record for doctorId: ${doctorId}`);
-  console.log(`Data: patient_id=${patient_id}, diagnosis=${diagnosis}, treatment=${treatment}`);
-
+// Get all records for a doctor
+exports.getDoctorRecords = async (req, res) => {
   try {
-    const result = await pool.query(
-      'INSERT INTO PatientRecords (patient_id, doctor_id, diagnosis, treatment) VALUES ($1, $2, $3, $4) RETURNING *',
-      [patient_id, doctorId, diagnosis, treatment]
-    );
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Database error' });
+    const doctorId = req.params.doctorId;
+    const patientName = req.query.patientName; // Get patientName from query params
+
+    const query = `
+      SELECT 
+        pr.record_id,
+        p.user_id AS patient_id,
+        p.name AS patient_name,
+        pr.diagnosis,
+        pr.treatment,
+        pr.created_at AS record_created_at,
+        pr.updated_at AS record_updated_at
+      FROM 
+        PatientRecords pr
+      JOIN 
+        Patients p ON pr.patient_id = p.user_id
+      WHERE 
+        pr.doctor_id = $1
+        ${patientName ? 'AND p.name ILIKE $2' : ''}
+    `;
+
+    const queryParams = patientName ? [doctorId, `%${patientName}%`] : [doctorId];
+    const records = await db.query(query, queryParams);
+
+    res.status(200).json({
+      success: true,
+      records: records.rows,
+    });
+  } catch (error) {
+    console.error('Error fetching doctor records:', error);
+    res.status(500).json({ success: false, message: 'Error fetching records' });
   }
 };
 
-// Get all medical records for a doctor
-const getRecordsForDoctor = async (req, res) => {
-  const { doctorId } = req.params;
 
-  console.log(`Getting records for doctorId: ${doctorId}`);
 
+// Add a new patient record
+exports.addPatientRecord = async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT * FROM PatientRecords WHERE doctor_id = $1',
-      [doctorId]
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Database error' });
+    const { patient_id, diagnosis, treatment } = req.body;
+    const doctorId = req.params.doctorId; // Get doctor ID from URL parameters
+
+    const query = `
+      INSERT INTO PatientRecords (patient_id, doctor_id, diagnosis, treatment, created_at, updated_at)
+      VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+      RETURNING *;
+    `;
+
+    const newRecord = await db.query(query, [patient_id, doctorId, diagnosis, treatment]);
+
+    res.status(201).json({
+      success: true,
+      record: newRecord.rows[0],
+    });
+  } catch (error) {
+    console.error('Error adding patient record:', error);
+    res.status(500).json({ success: false, message: 'Error adding record' });
   }
 };
 
-// Get medical records for a specific patient
-const getRecordsByPatientId = async (req, res) => {
-  const { patientId } = req.params;
-
-  console.log(`Getting records for patientId: ${patientId}`);
-
+exports.editPatientRecord = async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT * FROM PatientRecords WHERE patient_id = $1',
-      [patientId]
-    );
-    if (result.rows.length > 0) {
-      res.json(result.rows);
-    } else {
-      res.status(404).json({ error: 'No records found for this patient' });
+    const { recordId } = req.params;
+    const { diagnosis, treatment } = req.body;
+    const doctorId = req.params.doctorId; // Get doctorId from URL parameters
+
+    const query = `
+      UPDATE PatientRecords
+      SET diagnosis = $1, treatment = $2, updated_at = CURRENT_TIMESTAMP
+      WHERE record_id = $3 AND doctor_id = $4
+      RETURNING *;
+    `;
+
+    const updatedRecord = await db.query(query, [diagnosis, treatment, recordId, doctorId]);
+
+    if (updatedRecord.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Record not found or not authorized to edit this record',
+      });
     }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Database error' });
+
+    res.status(200).json({
+      success: true,
+      record: updatedRecord.rows[0],
+    });
+  } catch (error) {
+    console.error('Error updating patient record:', error);
+    res.status(500).json({ success: false, message: 'Error updating record' });
   }
 };
 
-// Update a specific medical record
-const updateRecord = async (req, res) => {
-  const { recordId } = req.params;
-  const { diagnosis, treatment } = req.body;
-  const { doctorId } = req.user; // Assuming `doctorId` is obtained from authenticated user's session
-
-  console.log(`Updating recordId: ${recordId}`);
-  console.log(`Data: diagnosis=${diagnosis}, treatment=${treatment}`);
-  console.log(`DoctorId: ${doctorId}`);
-
-  try {
-    // Check if the record belongs to the doctor
-    const checkRecord = await pool.query(
-      'SELECT * FROM PatientRecords WHERE record_id = $1 AND doctor_id = $2',
-      [recordId, doctorId]
-    );
-
-    if (checkRecord.rows.length === 0) {
-      return res.status(403).json({ error: 'You are not authorized to update this record' });
-    }
-
-    // Update the record
-    const result = await pool.query(
-      'UPDATE PatientRecords SET diagnosis = $1, treatment = $2, updated_at = CURRENT_TIMESTAMP WHERE record_id = $3 RETURNING *',
-      [diagnosis, treatment, recordId]
-    );
-
-    if (result.rows.length > 0) {
-      res.json(result.rows[0]);
-    } else {
-      res.status(404).json({ error: 'Record not found' });
-    }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: 'Database error' });
-  }
-};
-
-module.exports = {
-  createRecord,
-  getRecordsForDoctor,
-  getRecordsByPatientId,
-  updateRecord,
-};

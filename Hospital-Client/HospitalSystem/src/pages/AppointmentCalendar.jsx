@@ -5,16 +5,110 @@ import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
-import { Edit } from 'lucide-react';
+import { Edit, X } from 'lucide-react';
 
 // Setup localizer for the calendar
 const localizer = momentLocalizer(moment);
 
+// Custom Sweet Alert component
+const SweetAlert = ({ message, type, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className={`bg-white rounded-lg p-8 max-w-sm w-full m-4 relative ${type === 'success' ? 'border-green-500' : 'border-red-500'} border-t-4`}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+          <X size={24} />
+        </button>
+        <p className={`text-xl font-semibold mb-4 ${type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+          {type === 'success' ? 'Success!' : 'Error!'}
+        </p>
+        <p className="text-gray-700">{message}</p>
+        <button
+          onClick={onClose}
+          className={`mt-6 w-full py-2 px-4 rounded-full font-semibold text-white ${type === 'success' ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'}`}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// Popup Form component
+const PopupForm = ({ isOpen, onClose, newSlot, setNewSlot, editingSlot, handleAddOrUpdateSlot, resetForm }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg p-8 max-w-2xl w-full m-4 relative">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+          <X size={24} />
+        </button>
+        <h3 className="text-3xl font-bold mb-6 text-[#96e4d3] text-center">
+          {editingSlot ? 'Edit Available Time Slot' : 'Add Available Time Slot'}
+        </h3>
+        <form onSubmit={handleAddOrUpdateSlot} className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Start Date and Time</label>
+              <DatePicker
+                selected={newSlot.start}
+                onChange={(date) => setNewSlot({ ...newSlot, start: date })}
+                showTimeSelect
+                dateFormat="Pp"
+                placeholderText="Select start date and time"
+                className="border border-[#b7f1e4] rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#86d7c6] transition-all duration-300 ease-in-out hover:border-[#86d7c6]"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">End Date and Time</label>
+              <DatePicker
+                selected={newSlot.end}
+                onChange={(date) => setNewSlot({ ...newSlot, end: date })}
+                showTimeSelect
+                dateFormat="Pp"
+                placeholderText="Select end date and time"
+                className="border border-[#b7f1e4] rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-[#86d7c6] transition-all duration-300 ease-in-out hover:border-[#86d7c6]"
+                required
+              />
+            </div>
+          </div>
+          <div className="flex justify-center space-x-4 mt-4">
+            <button
+              className="bg-[#b7f1e4] hover:bg-[#86d7c6] text-black font-semibold px-8 py-3 rounded-full transition duration-300 ease-in-out flex items-center justify-center min-w-[200px] transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#86d7c6] focus:ring-opacity-50"
+              type="submit"
+            >
+              {editingSlot ? (
+                <>
+                  <Edit className="mr-2" size={18} />
+                  <span>Update Slot</span>
+                </>
+              ) : (
+                'Add Slot'
+              )}
+            </button>
+            {editingSlot && (
+              <button
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-full transition duration-300 ease-in-out flex items-center justify-center min-w-[200px] transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50"
+                type="button"
+                onClick={resetForm}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 function AppointmentCalendar() {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [newSlot, setNewSlot] = useState({ start: null, end: null, is_available: true, schedule_id: 1 });
-  const [alertMessage, setAlertMessage] = useState({ type: '', message: '' });
+  const [sweetAlert, setSweetAlert] = useState({ show: false, message: '', type: '' });
   const [editingSlot, setEditingSlot] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     fetchAvailableSlots();
@@ -22,58 +116,73 @@ function AppointmentCalendar() {
 
   const fetchAvailableSlots = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/avahours');
-      setAvailableSlots(response.data);
+      const response = await axios.get('http://localhost:3000/api/avahours/get');
+      const availableHours = response.data.availableHours;
+      if (Array.isArray(availableHours)) {
+        const slots = availableHours.map(slot => ({
+          id: slot.schedule_id,
+          available_from: slot.available_from,
+          available_to: slot.available_to,
+        }));
+        setAvailableSlots(slots);
+      } else {
+        console.error('Expected an array but got:', response.data);
+      }
     } catch (error) {
       console.error('Error fetching available slots:', error);
-      setAlertMessage({ type: 'error', message: 'Failed to fetch available slots. Please try again.' });
+      showSweetAlert('Failed to fetch available slots', 'error');
     }
   };
 
   const isOverlapping = (newStart, newEnd, currentSlotId = null) => {
-    return availableSlots.some(slot =>
-      slot.id !== currentSlotId && (
-        moment(newStart).isBetween(slot.available_from, slot.available_to, null, '[]') ||
-        moment(newEnd).isBetween(slot.available_from, slot.available_to, null, '[]') ||
-        (moment(newStart).isSameOrBefore(slot.available_from) && moment(newEnd).isSameOrAfter(slot.available_to))
-      )
-    );
+    return availableSlots.some(slot => {
+      if (currentSlotId && slot.id === currentSlotId) return false;
+      const slotStart = new Date(slot.available_from);
+      const slotEnd = new Date(slot.available_to);
+      return (
+        (newStart >= slotStart && newStart < slotEnd) ||
+        (newEnd > slotStart && newEnd <= slotEnd) ||
+        (newStart <= slotStart && newEnd >= slotEnd)
+      );
+    });
   };
 
   const handleAddOrUpdateSlot = async (e) => {
     e.preventDefault();
-    if (newSlot.start && newSlot.end) {
-      if (moment(newSlot.end).isSameOrBefore(newSlot.start)) {
-        setAlertMessage({ type: 'error', message: 'End time must be after start time.' });
-        return;
-      }
-      if (isOverlapping(newSlot.start, newSlot.end, editingSlot?.id)) {
-        setAlertMessage({ type: 'error', message: 'This time slot overlaps with an existing slot.' });
-        return;
-      }
+    if (isOverlapping(newSlot.start, newSlot.end, editingSlot?.id)) {
+      showSweetAlert('The new slot overlaps with an existing slot', 'error');
+      return;
+    }
 
-      const slotData = {
-        available_from: newSlot.start.toISOString(),
-        available_to: newSlot.end.toISOString(),
-        is_available: newSlot.is_available,
-        schedule_id: newSlot.schedule_id,
-      };
-
-      try {
-        if (editingSlot) {
-          await axios.put(`http://localhost:3000/api/avahours/update/${editingSlot.id}`, slotData);
-          setAlertMessage({ type: 'success', message: 'Slot updated successfully!' });
-        } else {
-          await axios.post('http://localhost:3000/api/avahours', slotData);
-          setAlertMessage({ type: 'success', message: 'New slot added successfully!' });
-        }
-        await fetchAvailableSlots();
-        resetForm();
-      } catch (error) {
-        console.error('Error adding/updating available slot:', error);
-        setAlertMessage({ type: 'error', message: 'Error adding/updating available slot. Please try again.' });
+    try {
+      if (editingSlot) {
+        await axios.put(`http://localhost:3000/api/avahours/${editingSlot.id}`, {
+          available_from: newSlot.start.toISOString(),
+          available_to: newSlot.end.toISOString(),
+          is_available: newSlot.is_available,
+          schedule_id: newSlot.schedule_id,
+        });
+        showSweetAlert('Slot updated successfully', 'success');
+      } else {
+        await axios.post('http://localhost:3000/api/avahours/', {
+          available_from: newSlot.start.toISOString(),
+          available_to: newSlot.end.toISOString(),
+          is_available: newSlot.is_available,
+          schedule_id: newSlot.schedule_id,
+        });
+        showSweetAlert('Slot added successfully', 'success');
+      }
+      fetchAvailableSlots();
+      resetForm();
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        showSweetAlert(error.response.data.message, 'error');
+      } else {
+        console.error('Error adding/updating slot:', error);
+        showSweetAlert('Failed to add/update slot', 'error');
       }
     }
+    setIsPopupOpen(false);
   };
 
   const handleSelectEvent = (event) => {
@@ -86,90 +195,57 @@ function AppointmentCalendar() {
         schedule_id: selectedSlot.schedule_id,
       });
       setEditingSlot(selectedSlot);
+      setIsPopupOpen(true);
     }
+  };
+
+  const handleSelectSlot = ({ start, end }) => {
+    setNewSlot({ start, end, is_available: true, schedule_id: 1 });
+    setEditingSlot(null);
+    setIsPopupOpen(true);
   };
 
   const resetForm = () => {
     setNewSlot({ start: null, end: null, is_available: true, schedule_id: 1 });
     setEditingSlot(null);
+    setIsPopupOpen(false);
+  };
+
+  const showSweetAlert = (message, type) => {
+    setSweetAlert({ show: true, message, type });
+    setTimeout(() => setSweetAlert({ show: false, message: '', type: '' }), 3000);
   };
 
   return (
-    <div className="mb-10 bg-gray-100 shadow-lg rounded-lg p-6 mx-28">
-      <h3 className="text-2xl font-bold mb-6 text-indigo-700">
-        {editingSlot ? 'Edit Available Time Slot' : 'Add Available Time Slot'}
-      </h3>
-      {alertMessage.message && (
-        <div className={`p-4 mb-4 rounded-md ${alertMessage.type === 'error' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-          {alertMessage.message}
-        </div>
-      )}
-      <form className="flex flex-col space-y-4" onSubmit={handleAddOrUpdateSlot}>
-        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-          <DatePicker
-            selected={newSlot.start}
-            onChange={(date) => setNewSlot({ ...newSlot, start: date })}
-            showTimeSelect
-            dateFormat="Pp"
-            placeholderText="Start Date and Time"
-            className="border border-indigo-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
-          <DatePicker
-            selected={newSlot.end}
-            onChange={(date) => setNewSlot({ ...newSlot, end: date })}
-            showTimeSelect
-            dateFormat="Pp"
-            placeholderText="End Date and Time"
-            className="border border-indigo-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            required
-          />
-        </div>
-        <div className="flex space-x-4">
-          <button
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md transition duration-300 ease-in-out flex items-center"
-            type="submit"
-          >
-            {editingSlot ? (
-              <>
-                <Edit className="mr-2" size={18} />
-                Update Available Slot
-              </>
-            ) : (
-              'Add Available Slot'
-            )}
-          </button>
-          {editingSlot && (
-            <button
-              className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-md transition duration-300 ease-in-out"
-              type="button"
-              onClick={resetForm}
-            >
-              Cancel
-            </button>
-          )}
-        </div>
-      </form>
-
-      <div className="mt-8">
-        <h3 className="text-2xl font-bold mb-6 text-indigo-700">Available Slots</h3>
-        <Calendar
-          localizer={localizer}
-          events={availableSlots.map(slot => ({
-            title: 'Available ',
-            start: new Date(slot.available_from),
-            end: new Date(slot.available_to),
-            id: slot.id,
-          }))}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500 }}
-          defaultView="week"
-          views={['month', 'week', 'day', 'agenda']}
-          onSelectEvent={handleSelectEvent}
-          className="bg-white p-4 rounded-lg shadow-md"
+    <div className="p-4">
+      <Calendar
+        localizer={localizer}
+        events={availableSlots}
+        startAccessor="available_from"
+        endAccessor="available_to"
+        style={{ height: 600, margin: '50px' }}
+        onSelectEvent={handleSelectEvent}
+        onSelectSlot={handleSelectSlot}
+        selectable
+      />
+      {isPopupOpen && (
+        <PopupForm
+          isOpen={isPopupOpen}
+          onClose={resetForm}
+          newSlot={newSlot}
+          setNewSlot={setNewSlot}
+          editingSlot={editingSlot}
+          handleAddOrUpdateSlot={handleAddOrUpdateSlot}
+          resetForm={resetForm}
         />
-      </div>
+      )}
+      {sweetAlert.show && (
+        <SweetAlert
+          message={sweetAlert.message}
+          type={sweetAlert.type}
+          onClose={() => setSweetAlert({ show: false, message: '', type: '' })}
+        />
+      )}
     </div>
   );
 }

@@ -30,4 +30,20 @@ const loginUser = createAsyncThunk(
   }
 );
 
-export { registerUser, loginUser };
+const getUserData = createAsyncThunk("user/getUserData", async () => {
+  const response = await axios.get("/api/users/getUserData");
+  return response.data;
+});
+
+const updateUserData = createAsyncThunk(
+  "user/updateUserData",
+  async (userData) => {
+    const response = await axios.put("/api/users/updateUserData", userData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data
+  }
+  
+);
+
+export { registerUser, loginUser, getUserData,updateUserData };

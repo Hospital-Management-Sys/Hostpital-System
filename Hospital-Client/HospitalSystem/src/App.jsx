@@ -23,20 +23,18 @@ import FindDrs from "./pages/FindDrs";
 import DoctorProfile from "./components/doctorprofile";
 import AboutUsSection from "./pages/about";
 import Booking from "./pages/Booking";
-import LoginForm from './components/loginForm'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ContactForm from './components/contactus';
-
+import LoginForm from "./components/loginForm";
+import UserProfile from "./pages/userProfile/userProfile";
+import ContactForm from "./components/contactus";
 
 const App = () => {
-
   return (
     <Provider store={store}>
       <Router>
         <Navbar />
         <Routes>
           <Route path="/" element={<HomePage />} />
-
+          <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/book" element={<Booking />} />
           <Route path="/FindDrs" element={<FindDrs />} />
           <Route path="/Doctors" element={<Doctors />} />
@@ -55,7 +53,7 @@ const App = () => {
           />
 
           <Route path="/login" element={<LoginForm />} />
-             <Route path="/contact-us" element={<ContactForm />} />
+          <Route path="/contact-us" element={<ContactForm />} />
           {/* Admin Routes */}
           <Route path="/admin/AdminLogin" element={<AdminLogin />} />
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
@@ -81,10 +79,6 @@ const App = () => {
       </Router>
     </Provider>
   );
-
-    
-    );
-
 };
 
 export default App;

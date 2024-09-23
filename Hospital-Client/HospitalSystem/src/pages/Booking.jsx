@@ -1,5 +1,6 @@
 import React from 'react'
 import calender from '../assets/calender.gif'
+import {Link } from "react-router-dom";
 
 function Booking() {
   return (
@@ -8,7 +9,7 @@ function Booking() {
   <div className="container px-4 mx-auto">
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
       <div className="w-full lg:w-1/3">
-        <div className="bg-yellow-200 dark:bg-slate-700 dark:bg-opacity-40 rounded-b-[200px] text-center h-full -mt-24 px-4">
+        <div className="bg-[#F8F988] dark:bg-slate-700 dark:bg-opacity-40 rounded-b-[200px] text-center h-full -mt-24 px-4">
           <img
             alt=""
             className="rounded mx-auto "
@@ -19,11 +20,11 @@ function Booking() {
 <p className="text-lg md:text-xl font-medium text-gray-800  p-6 rounded-lg font-sans max-w-2xl mx-auto leading-relaxed">
   Get the care you need, when you need it – book your hospital appointments online in seconds and skip the wait!
 </p>
-      <a 
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 inline-block text-center"
+      <Link to="/FindDrs" 
+        className="bg-[#C0EEE4] hover:bg-[#FFCAC8] text-black font-semibold py-3 px-6 rounded-lg transition duration-300 inline-block text-center"
       >
         Start Booking 
-      </a>
+      </Link>
         </div>
         
       </div>

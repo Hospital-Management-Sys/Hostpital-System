@@ -47,6 +47,18 @@ const App = () => {
           <Route path="/doctorP" element={<DoctorProfile />} />
           <Route path="/about" element={<AboutUsSection />} />
 
+          {/* <Route path="/UserProfile" element={<UserProfile />} /> */}
+          <Route path="/book" element={<Booking />} />
+          <Route path="/FindDrs" element={<FindDrs />} />
+          <Route path="/Doctors" element={<Doctors />} />
+          <Route path="/Appointment" element={<Appointment />} />
+          <Route
+            path="/AppointmentCalendar"
+            element={<AppointmentCalendar />}
+          />
+          <Route path="/doctorP" element={<DoctorProfile />} />
+          <Route path="/about" element={<AboutUsSection />} />
+
           <Route path="/Appointment" element={<Appointment />} />
           <Route
             path="/AppointmentCalendar"
@@ -54,7 +66,7 @@ const App = () => {
           />
 
           <Route path="/login" element={<LoginForm />} />
-             <Route path="/contact-us" element={<ContactForm />} />
+          <Route path="/contact-us" element={<ContactForm />} />
           {/* Admin Routes */}
           <Route path="/admin/AdminLogin" element={<AdminLogin />} />
           <Route path="/admin/AdminDashboard" element={<AdminDashboard />} />
@@ -87,5 +99,3 @@ const App = () => {
 };
 
 export default App;
-
-

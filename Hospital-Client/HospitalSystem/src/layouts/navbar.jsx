@@ -1,8 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom"; 
-import img from '../assets/3.png'; 
+import { Link } from "react-router-dom";
+import img from "../assets/3.png";
+import { useSelector, useDispatch } from "react-redux";
+import { setLoggedIn } from "../redux/slices/authSlice/authSlice";
+import {
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
+} from "@material-tailwind/react";
+
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <nav className="relative bg-[#FF9E9E] h-20 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,6 +53,37 @@ const Navbar = () => {
               
               
             </div>
+          </div>
+          <div className="flex space-x-4">
+            {!isLoggedIn ? (
+              <Link
+                to="/login"
+                className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+              >
+                Login
+              </Link>
+            ) : (
+              <Menu>
+                <MenuHandler>
+                  <Link
+                    onClick={() => {
+                      dispatch(setLoggedIn());
+                      sessionStorage.clear();
+                    }}
+                    className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+                  >
+                    {`Welcome ${"UserName"}`}
+                  </Link>
+                </MenuHandler>
+              </Menu>
+            )}
+
+            <Link
+              to="/booking"
+              className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+            >
+              Book Now
+            </Link>
           </div>
         </div>
       </div>

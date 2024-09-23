@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import img from "../assets/3.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoggedIn } from "../redux/slices/authSlice/authSlice";
+import { useNavigate } from "react-router-dom";
 import {
   Menu,
   MenuHandler,
@@ -10,8 +11,8 @@ import {
   MenuList,
 } from "@material-tailwind/react";
 
-
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
@@ -65,16 +66,29 @@ const Navbar = () => {
             ) : (
               <Menu>
                 <MenuHandler>
-                  <Link
+                  <Link className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium">
+                    profile
+                  </Link>
+                </MenuHandler>
+                <MenuList>
+                  <MenuItem
+                    onClick={() => {
+                      navigate("/UserProfile");
+                    }}
+                    className="flex justify-center items-center mb-3"
+                  >
+                    Go to profile
+                  </MenuItem>
+                  <MenuItem
                     onClick={() => {
                       dispatch(setLoggedIn());
                       sessionStorage.clear();
                     }}
-                    className="bg-white text-[#FF9E9E] hover:bg-[#FFCAC8] hover:text-white px-4 py-2 rounded-md text-m font-medium"
+                    className="flex justify-center items-center mb-3"
                   >
-                    {`Welcome ${"UserName"}`}
-                  </Link>
-                </MenuHandler>
+                    Logout
+                  </MenuItem>
+                </MenuList>
               </Menu>
             )}
 

@@ -80,6 +80,46 @@ class User {
       throw e;
     }
   }
+
+  static async updateUserData(userData) {
+    try {
+      const isVerified = verifyPassword({
+        password: userData.currentPassword,
+        hashedPassword: userData.password,
+      });
+
+      if (isVerified) {
+        const hashedPassword = userData.newPassword
+          ? hashPassword(userData.newPassword)
+          : userData.password;
+        console.log(userData.user_id);
+        const result = await pool.query(
+          "UPDATE patients SET email= $1, name= $2, phone= $3, password= $4 WHERE user_id= $5 RETURNING user_id, email, name, phone",
+          [
+            userData.email,
+            userData.name,
+            userData.phone,
+            hashedPassword,
+            userData.user_id,
+          ]
+        );
+
+        console.log(result.rows);
+
+        const { ...safeUserData } = result.rows[0];
+        return { user: safeUserData, isReturned: true };
+      } else {
+        return { message: "Incorrect current password", isReturned: false };
+      }
+    } catch (e) {
+      console.log(e);
+      throw {
+        message: "Failed to update user data",
+        error: e,
+        isReturned: false,
+      };
+    }
+  }
 }
 
 module.exports = User;

@@ -1,5 +1,10 @@
 const generateToken = require("../utils/generateToken");
-const { createUser, loginUser, getUserData } = require("../models/User");
+const {
+  createUser,
+  loginUser,
+  getUserData,
+  updateUserData,
+} = require("../models/User");
 const { loginDoctor } = require("../models/Doctor");
 exports.registerUser = async (req, res) => {
   const userData = req.body;
@@ -74,5 +79,25 @@ exports.getUserData = async (req, res) => {
     }
   } catch (e) {
     res.status(501).json({ message: "Internal server error", error: e });
+  }
+};
+
+exports.updateUserInformation = async (req, res) => {
+  const userID = req.user;
+  const userData = req.body;
+  userData.user_id = userID;
+  try {
+    const result = await updateUserData(userData);
+    console.log("hello");
+    if (result.isReturned) {
+      res
+        .status(202)
+        .json({ message: "User Updated Successfully", user: result.user });
+    } else {
+      res.status(204).json({ message: "Something went wrong" });
+    }
+  } catch (e) {
+    console.log(e);
+    res.status(501).json({ message: "Internal Server Error", error: e });
   }
 };

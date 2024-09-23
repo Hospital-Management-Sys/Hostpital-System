@@ -9,10 +9,11 @@ const availableHoursRoutes = require("./routes/appointmentRoutes");
 const recordRoutes = require("./routes/recordRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const patientRoutes = require("./routes/patientRoutes");
-const userRoutes=require("./routes/userRoutes");
+const userRoutes = require("./routes/userRoutes");
 const cookieParser = require("cookie-parser");
 const contactRoutes = require("./routes/contactusRouter");
-require('dotenv').config();
+const userAppointmentRoutes = require("./routes/userAppointmentRoutes");
+require("dotenv").config();
 
 // server constants
 const corsConfig = { origin: "http://localhost:5173", credentials: false };
@@ -34,10 +35,10 @@ app.use("/api", recordRoutes);
 app.use(appointmentRoutes);
 app.use("/api/avahours", availableHoursRoutes);
 app.use("/api/users", processImage, patientRoutes);
-app.use('/api/avahours', availableHoursRoutes); 
-app.use('/api/contact', contactRoutes);
-
-
+app.use("/api/users", userRoutes);
+app.use("/api/avahours", availableHoursRoutes);
+app.use("/api/contact", contactRoutes);
+app.use("/api/users", userAppointmentRoutes);
 
 // server connection
 app.listen(port, () => {
